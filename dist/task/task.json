@@ -1,0 +1,49 @@
+{
+  "id": "f37adbc7-760f-4909-abd9-443624698b03",
+  "name": "TrivyResultUploader",
+  "friendlyName": "Trivy Result Uploader",
+  "description": "Uploads Trivy scan results to a specified API endpoint",
+  "helpMarkDown": "This task uploads Trivy vulnerability scans results via HTTP POST.",
+  "category": "Utility",
+  "author": "Thiago Loureiro",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 23
+  },
+  "instanceNameFormat": "Upload Trivy Results",
+  "inputs": [
+    {
+      "name": "apiUrl",
+      "type": "string",
+      "label": "API URL",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Provide the API URL to upload the Trivy results, this API call will be a POST request with a the file as a payload, and the application name go as a parameter url/{appname}."
+    },
+    {
+      "name": "application",
+      "type": "string",
+      "label": "Application Name",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Provide the application name that results will be sent to the API."
+    },
+    {
+      "name": "apiKey",
+      "type": "string",
+      "label": "API Key",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Provide the API Key for authentication. This will be sent as a header in the request.",
+      "properties": {
+        "isSecret": true
+      }
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "index.js"
+    }
+  }
+}

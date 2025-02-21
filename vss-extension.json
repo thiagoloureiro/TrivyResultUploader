@@ -1,0 +1,33 @@
+{
+    "manifestVersion": 1,
+    "id": "trivy-result-uploader",
+    "name": "Trivy Result Uploader",
+    "version": "1.0.23",
+    "publisher": "thiagoguaru",
+    "targets": [
+      { "id": "Microsoft.VisualStudio.Services" }
+    ],
+    "description": "An Azure DevOps extension to upload and manage Trivy scan results.",
+    "categories": ["Azure Pipelines"],
+    "icons": {
+      "default": "images/icon.png"
+    },
+    "files": [
+      {
+        "path": "task"
+      }
+    ],
+    "contributions": [
+      {
+        "id": "trivy-upload-task",
+        "type": "ms.vss-distributed-task.task",
+        "targets": [
+          "ms.vss-distributed-task.tasks"
+        ],
+        "properties": {
+          "name": "task"
+        }
+      }
+    ]
+  }
+  
