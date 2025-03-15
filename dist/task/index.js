@@ -37,9 +37,31 @@ async function uploadTrivyReport() {
       }
 
       const reportData = fs.readFileSync(trivyFilePath, "utf8");
+      
+      // Parse the JSON report
+      let reportJson;
+      try {
+        reportJson = JSON.parse(reportData);
+      } catch (error) {
+        console.warn(`⚠️ Failed to parse JSON from ${reportFile}, skipping...`);
+        continue;
+      }
+      
+      // Extract the ArtifactName
+      if (!reportJson.ArtifactName) {
+        console.warn(`⚠️ No ArtifactName found in report ${reportFile}, skipping...`);
+        continue;
+      }
+      
+      // Get the component part (after the slash if it exists)
+      const artifactName = reportJson.ArtifactName;
+      const component = artifactName.includes('/') ? artifactName.split('/').pop() : artifactName;
+      
+      console.log(`🔹 Full ArtifactName: ${artifactName}`);
+      console.log(`🔹 Component: ${component}`);
 
-      const apiUrlWithApp = `${apiUrl}/${application}`;
-      console.log(`🔹 API URL with application: ${apiUrlWithApp}`);
+      const apiUrlWithApp = `${apiUrl}/${application}/${component}`;
+      console.log(`🔹 API URL with application and component: ${apiUrlWithApp}`);
 
       console.log("📤 Sending request to API...");
 
