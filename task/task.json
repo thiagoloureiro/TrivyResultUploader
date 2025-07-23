@@ -9,7 +9,7 @@
   "version": {
     "Major": 2,
     "Minor": 0,
-    "Patch": 13
+    "Patch": 15
   },
   "instanceNameFormat": "Upload Trivy Results",
   "inputs": [
@@ -35,10 +35,19 @@
       "label": "API Key",
       "defaultValue": "",
       "required": true,
+      "isSecret": true,
       "helpMarkDown": "Provide the API Key for authentication. This will be sent as a header in the request.",
       "properties": {
         "isSecret": true
       }
+    },
+    {
+      "name": "tempDir",
+      "type": "string",
+      "label": "Trivy Results Path",
+      "defaultValue": "/home/vsts/work/_temp/trivy",
+      "required": true,
+      "helpMarkDown": "Provide the path where Trivy results are stored. This path will be used to read the results file."
     }
   ],
   "execution": {
