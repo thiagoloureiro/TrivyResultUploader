@@ -9,7 +9,7 @@
   "version": {
     "Major": 2,
     "Minor": 0,
-    "Patch": 3
+    "Patch": 13
   },
   "instanceNameFormat": "Upload Trivy Results",
   "inputs": [
@@ -42,8 +42,13 @@
     }
   ],
   "execution": {
-    "Node18": {
+    "Node20_1": {
       "target": "index.js"
     }
-  }
+  },
+  "platforms": [
+    "windows",
+    "linux",
+    "darwin"
+  ]
 }

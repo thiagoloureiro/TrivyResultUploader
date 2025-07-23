@@ -1,6 +1,6 @@
 {
   "name": "trivy-result-uploader",
-  "version": "2.0.4",
+  "version": "2.0.13",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
+  "devDependencies": {
+    "@types/node": "^24.1.0"
   }
 }
