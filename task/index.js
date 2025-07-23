@@ -13,7 +13,7 @@ async function uploadTrivyReport() {
     const application = process.env["INPUT_APPLICATION"];
     console.log(`🔹 Application: ${application}`);
 
-    const tempDir = "/home/vsts/work/_temp/trivy";
+    const tempDir = process.env["INPUT_TEMPDIR"] || "/home/vsts/work/_temp/trivy";
     const files = fs.readdirSync(tempDir);
     const trivyReportFiles = files.filter(file => file.startsWith('trivy-results') && file.endsWith('.json'));
 

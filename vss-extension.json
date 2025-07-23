@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "trivy-result-uploader",
     "name": "Trivy Result Uploader",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "publisher": "thiagoguaru",
     "targets": [
       { "id": "Microsoft.VisualStudio.Services" }

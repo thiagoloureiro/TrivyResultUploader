@@ -42,7 +42,7 @@
     }
   ],
   "execution": {
-    "Node16": {
+    "Node18": {
       "target": "index.js"
     }
   }
