@@ -56,10 +56,15 @@ jobs:
             exit 1
           fi
           npx tfx extension publish \
-            --manifest-globs vss-extension.json \
-            --token "$AZURE_DEVOPS_PAT"
+            --vsix "${{ steps.version.outputs.vsix }}" \
+            --auth-type pat \
+            --service-url https://marketplace.visualstudio.com \
+            --token "$AZURE_DEVOPS_PAT" \
+            --no-prompt \
+            --no-wait-validation
 
       - name: Create GitHub Release
+        if: success() || failure()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
