@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Stage task files
+        run: |
+          rm -rf dist
+          mkdir -p dist/task
+          cp -r task/* dist/task/
+
+      - name: Read extension version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./vss-extension.json').version")
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "vsix=thiagoguaru.trivy-result-uploader-${VERSION}.vsix" >> "$GITHUB_OUTPUT"
+
+      - name: Create VSIX
+        run: npx tfx extension create --manifest-globs vss-extension.json
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.version.outputs.vsix }}
+          path: ${{ steps.version.outputs.vsix }}
+
+      - name: Publish to Marketplace
+        env:
+          AZURE_DEVOPS_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
+        run: |
+          if [ -z "$AZURE_DEVOPS_PAT" ]; then
+            echo "Missing repository secret AZURE_DEVOPS_PAT"
+            exit 1
+          fi
+          npx tfx extension publish \
+            --manifest-globs vss-extension.json \
+            --token "$AZURE_DEVOPS_PAT"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          VSIX="${{ steps.version.outputs.vsix }}"
+          TAG="v${VERSION}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$VSIX" --clobber
+          else
+            gh release create "$TAG" "$VSIX" \
+              --title "$VERSION" \
+              --generate-notes
+          fi

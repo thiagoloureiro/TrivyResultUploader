@@ -9,7 +9,7 @@
   "version": {
     "Major": 2,
     "Minor": 0,
-    "Patch": 15
+    "Patch": 17
   },
   "instanceNameFormat": "Upload Trivy Results",
   "inputs": [
@@ -52,6 +52,9 @@
   ],
   "execution": {
     "Node20_1": {
+      "target": "index.js"
+    },
+    "Node24": {
       "target": "index.js"
     }
   },
